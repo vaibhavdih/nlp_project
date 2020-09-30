@@ -55,13 +55,13 @@ cp ~/giza-pp/GIZA++-v2/GIZA++ ~/giza-pp/GIZA++-v2/snt2cooc.out ~/giza-pp/mkcls-v
 cd
 mkdir lm1
 cd lm1
-~/mosesdecoder/bin/lmplz -o 3 <~/corpus/train1.en > arpa.en --discount_fallback
+~/mosesdecoder/bin/lmplz -o 3 <~/corpus/train1.hi > arpa.hi --discount_fallback
 
 #Discount fallback is involved to avoid error as a small training data is there
 
 #Creation of an arpa file in the lm1 folder.
 
-~/mosesdecoder/bin/build_binary arpa.en blm.en
+~/mosesdecoder/bin/build_binary arpa.hi blm.hi
 
 #This should create a blm.en file in the lm1 folder. 
 
@@ -70,7 +70,7 @@ cd lm1
 cd
 mkdir working1
 cd working1
-nohup nice /home/ubuntu/mosesdecoder/scripts/training/train-model.perl -root-dir /home/ubuntu/working1/train -corpus /home/ubuntu/corpus/train1 -f hi -e en -alignment grow-diag-final-and -reordering msd-bidirectional-fe -lm 0:3:/home/ubuntu/lm1/blm.en:8 -external-bin-dir ~/mosesdecoder/tools >& training.out &
+nohup nice /home/ubuntu/mosesdecoder/scripts/training/train-model.perl -root-dir /home/ubuntu/working1/train -corpus /home/ubuntu/corpus/train1 -f en -e hi -alignment grow-diag-final-and -reordering msd-bidirectional-fe -lm 0:3:/home/ubuntu/lm1/blm.hi:8 -external-bin-dir ~/mosesdecoder/tools >& training.out &
 
 #a moses.ini file is created in the directory ~/working/train/model after the program execution
 #The ~/working/train directory contains corpus, giza.en-hi, giza.hi-en and model.
@@ -78,14 +78,14 @@ nohup nice /home/ubuntu/mosesdecoder/scripts/training/train-model.perl -root-dir
 
 #Step 11: Testing
 
-nohup nice ~/mosesdecoder/bin/moses -f ~/working1/train/model/moses.ini < ~/corpus/test1.hi > ~/working1/test1.translated.en 2> ~/working1/testing.out
+nohup nice ~/mosesdecoder/bin/moses -f ~/working1/train/model/moses.ini < ~/corpus/test1.en > ~/working1/test1.translated.hi 2> ~/working1/testing.out
 
 #Creation of a names test1.translated.en file in the working directory. 
 #Transliterated words can be seen in test1.translated.en file.
 
 #Step 12: Calculating the BLEU score:
 
-/home/ubuntu/mosesdecoder/scripts/generic/multi-bleu.perl -lc /home/ubuntu/corpus/test1.en < /home/ubuntu/working1/test1.translated.en
+/home/ubuntu/mosesdecoder/scripts/generic/multi-bleu.perl -lc /home/ubuntu/corpus/test1.hi < /home/ubuntu/working1/test1.translated.hi
 
 #Comparison of files test1.en and test1.translated.en
 #Calculation of BLEU score

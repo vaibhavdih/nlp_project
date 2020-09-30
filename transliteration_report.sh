@@ -53,7 +53,7 @@ cp ~/giza-pp/GIZA++-v2/GIZA++ ~/giza-pp/GIZA++-v2/snt2cooc.out ~/giza-pp/mkcls-v
 #Step 7: Creating a corpus directory (in the HOME directory)
 
 cd
-mkdir corpus
+#mkdir corpus
 
 #Step 8: Saving the necessary test and train files in the corpus. This was done manually and the data set was processed using Jupyter Notebook. The corpus contains 4 files namely train1.hi, train1.en, test1.hi and test1.en. 
 
@@ -78,7 +78,7 @@ cd lm1
 cd
 mkdir working1
 cd working1
-nohup nice $HOME/mosesdecoder/scripts/training/train-model.perl -root-dir $HOME/working1/train -corpus $HOME/corpus/train1 -f hi -e en -alignment grow-diag-final-and -reordering msd-bidirectional-fe -lm 0:3:$HOME/lm1/blm.en:8 -external-bin-dir ~/mosesdecoder/tools >& training.out &
+nohup nice /home/ubuntu/mosesdecoder/scripts/training/train-model.perl -root-dir /home/ubuntu/working1/train -corpus /home/ubuntu/corpus/train1 -f hi -e en -alignment grow-diag-final-and -reordering msd-bidirectional-fe -lm 0:3:/home/ubuntu/lm1/blm.en:8 -external-bin-dir ~/mosesdecoder/tools >& training.out &
 
 #This takes a little time. Once this command finishes running, you should see a moses.ini file in the directory ~/working1/train/model
 
@@ -97,7 +97,7 @@ nohup nice ~/mosesdecoder/bin/moses -f ~/working1/train/model/moses.ini < ~/corp
 
 #Step 12: Calculating the BLEU score:
 
-$HOME/mosesdecoder/scripts/generic/multi-bleu.perl -lc $HOME/corpus/test1.en < $HOME/working1/test1.translated.en
+/home/ubuntu/mosesdecoder/scripts/generic/multi-bleu.perl -lc /home/ubuntu/corpus/test1.en < /home/ubuntu/working1/test1.translated.en
 
 #This command compares the files test1.en and test1.translated.en and calculates the BLEU score. 
 #I got a score of 61.34, which corresponds to a score of 0.6134.
